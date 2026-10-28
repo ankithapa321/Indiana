@@ -1,0 +1,10 @@
+{
+  "description": "Offers a pixel-perfect replica of a Gulf Coast apparel website featuring a branded product catalog, interactive shopping, and responsive design for seamless user experience.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
