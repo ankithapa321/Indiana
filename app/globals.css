@@ -38,6 +38,7 @@ body {
   object-position: center top;
   /* Focuses on the top half so the trees/water are visible */
   background: var(--dark);
+  filter:blur(4px);
   pointer-events: none;
 }
 
@@ -93,7 +94,7 @@ button {
   font-family: var(--font-bebas), sans-serif;
   margin-bottom: 0.5rem;
   color: #fff;
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   letter-spacing: .04em;
   line-height: .9;
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
@@ -126,36 +127,48 @@ button {
   animation: rise .7s ease backwards .22s;
 }
 
+/* Centers the button */
 .about-wrap {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 10px;
-  margin-top: 1rem;
+  padding: 16px 16px 0;
 }
 
+/* The Glassy Pill Button */
 .about-link {
-  margin-top: 1rem;
-  padding: 14px 24px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 100px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 19px; 
+  border: 1px solid rgba(255, 255, 255, 0.25); 
+  border-radius: 100px; 
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08); 
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px);
   font-family: var(--font-bebas), sans-serif;
   font-size: 1.5rem;
-  letter-spacing: 0.1em;
+  line-height: 1;
+  letter-spacing: .05em;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-transform: uppercase; /* Makes the text look like a button */
+  text-shadow: none; /* Removes the old text shadow */
 }
 
+/* Hover State */
 .about-link:hover {
-  background: var(--accent);
+  background: var(--accent); 
   color: #000;
   border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(30, 138, 215, 0.3);
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 25px rgba(30, 138, 215, 0.4); 
+}
+
+.about-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 138, 215, 0.6);
 }
 
 /* --- PRODUCT GRID --- */
@@ -166,9 +179,10 @@ button {
   /* Margin-top removed, the hero-header bottom margin handles the spacing */
 }
 
+/* "Bare" card (matches the reference's .card.bare): the transparent cut-out floats on the page */
 .product-card {
   display: block;
-  color: inherit;
+  color: #fff;
   text-decoration: none;
   animation: rise .6s ease backwards;
   transition: transform .2s;
@@ -180,12 +194,21 @@ button {
 
 .product-image {
   display: block;
-  width: 100%;
+  width: 82%;
   height: auto;
+  margin: 0 auto;
   aspect-ratio: 1;
   object-fit: contain;
   filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .4));
   transition: transform .55s ease;
+}
+
+.product-image.empty {
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  text-shadow: var(--shadow-soft);
+  filter: none;
 }
 
 .product-card:hover .product-image {
@@ -194,12 +217,10 @@ button {
 
 .product-copy {
   padding: 1.1rem 1.2rem 1.4rem;
-  text-align: center;
 }
 
 .product-name,
 .product-price {
-  color: #fff;
   text-shadow: var(--shadow-soft);
 }
 
@@ -212,9 +233,8 @@ button {
 }
 
 .product-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--accent);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .store-footer {
@@ -827,15 +847,17 @@ button {
 .detail-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 3.5rem;
   align-items: start;
   width: 100%;
   max-width: 1100px;
-  padding: 2rem 1.5rem 6rem;
+  padding: 1.25rem 1.5rem 4rem;
 }
 
 .detail-media {
-  position: relative;
+  position: sticky;
+  top: 2rem;
+  min-width: 0;
 }
 
 .detail-image {
@@ -867,7 +889,7 @@ button {
 .detail-info {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.35rem;
 }
 
 .detail-info>* {
@@ -889,6 +911,7 @@ button {
 .detail-info h1 {
   font: clamp(2rem, 4vw, 4rem)/1 var(--font-bebas), sans-serif;
   letter-spacing: .02em;
+  white-space: nowrap;
   text-shadow: var(--shadow-strong);
 }
 
@@ -1069,7 +1092,8 @@ button {
 .cart-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 109;
+  /* Above the floating controls (9999) so the open bag isn't covered */
+  z-index: 10000;
   border: 0;
   background: rgba(0, 0, 0, .48);
   opacity: 0;
@@ -1086,7 +1110,7 @@ button {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 110;
+  z-index: 10001;
   display: flex;
   flex-direction: column;
   width: min(440px, 100vw);
@@ -1272,9 +1296,8 @@ button {
   }
 
   .about-link {
-    font-size: 0.75rem;
-    padding: 7px 10px;
-    margin-top: 0rem;
+    padding: 8px 16px;
+    font-size: 1.1rem;
     white-space: nowrap;
   }
 }
@@ -1286,7 +1309,7 @@ button {
   }
 
   .brand {
-    font-size: 2.2rem;
+    font-size: 2rem;
     white-space: nowrap;
     letter-spacing: 0.05em;
   }
@@ -1296,23 +1319,26 @@ button {
     letter-spacing: 0.2em;
   }
 
+  /* FIX 1: Add a large bottom margin to the tagline to force the gap */
   .tagline {
     font-size: 14px;
     margin-top: 0.5rem;
+    margin-bottom: 1.5rem !important; /* <--- THIS CREATES THE GAP */
     line-height: 1.4;
   }
 
+  /* FIXED: Moved the header to the very top */
   .hero-header {
-    padding-top: 2rem;
+    top: 0; 
+    padding-top: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
   .store-shell {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  /* Change the first value (2rem) to 5rem or 6rem to push it down */
-  padding: 5rem 1.5rem 4rem;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0rem 1.5rem 4rem; 
   }
 
   .weather-grid {
@@ -1352,10 +1378,22 @@ button {
     padding-bottom: 10px;
   }
 
-  .product-image {
-    max-height: 45vh;
+  /* FIX 2: Ensure wrapper is flex and doesn't have top margin */
+  .about-wrap {
+    display: flex;
+    justify-content: center;
     width: 100%;
-    object-fit: contain;
+    margin-top: 0; /* Reset this since tagline pushes it down now */
+    padding: 0;
+  }
+
+  /* FIX 3: Keep the button small */
+  .about-link {
+    font-size: 0.9rem !important;     
+    padding: 6px 16px !important;     
+    width: auto !important;           
+    white-space: nowrap !important;
+    letter-spacing: 0.05em !important;
   }
 }
 
@@ -1367,5 +1405,898 @@ button {
     scroll-behavior: auto !important;
     animation-duration: .01ms !important;
     transition-duration: .01ms !important;
+  }
+}
+/* --- NAV: category dropdown (mirrors the reference city dropdown) --- */
+.nav-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem;
+}
+
+.category-nav {
+  position: relative;
+  display: inline-block;
+}
+
+.category-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 9px 40px 9px 16px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 100px;
+  outline: none;
+  color: #fff;
+  background: rgba(255, 255, 255, .14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.category-select:hover {
+  background: rgba(255, 255, 255, .22);
+}
+
+.category-select:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(30, 138, 215, .4);
+}
+
+.category-select option {
+  color: var(--text);
+}
+
+.category-nav::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 17px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.home-btn {
+  cursor: pointer;
+}
+
+/* --- PRODUCT MEDIA: hero, views, design gallery --- */
+.detail-info h1 {
+  color: #fff;
+}
+
+.nav-right {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .35rem;
+}
+
+.nav-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+
+.nav-right .about-link {
+  font-size: 1.20rem;       /* Makes the text smaller */
+  padding: 8px 16px;     /* Slims down the pill */
+  letter-spacing: 0.05em;
+}
+
+/* Capped by viewport height so the whole product view fits on one screen, like the reference */
+.img-frame {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, calc(100vh - 270px));
+  margin-inline: auto;
+}
+
+.img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .42);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08), 0 18px 42px rgba(0, 0, 0, .24);
+  animation: rise .7s ease backwards .08s;
+}
+
+.img-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s ease, opacity .2s;
+}
+
+.img-wrap:hover img {
+  transform: scale(1.06);
+}
+
+/* Transparent cut-out: no tile, the garment sits on the page background */
+.img-wrap.bare {
+  overflow: visible;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.img-wrap.bare img {
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .4));
+}
+
+.img-wrap.loading img {
+  opacity: .55;
+}
+
+.img-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 3px solid rgba(0, 0, 0, .15);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+.view-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity .15s, background .15s;
+}
+
+.view-arrow.prev {
+  left: 12px;
+}
+
+.view-arrow.next {
+  right: 12px;
+}
+
+.img-wrap:hover .view-arrow,
+.view-arrow:focus-visible {
+  opacity: 1;
+}
+
+.view-arrow:hover {
+  background: rgba(0, 0, 0, .6);
+}
+
+.view-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, .28);
+  transform: translateX(-50%);
+}
+
+.view-dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+}
+
+.view-dots button.active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+.options {
+  margin-top: 1rem;
+}
+
+.thumbs-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.thumbs {
+  display: flex;
+  flex: 1;
+  gap: .6rem;
+  min-width: 0;
+  padding: 4px 2px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .5);
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb:hover {
+  transform: translateY(-2px);
+}
+
+.thumb.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.thumb-arrow {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background .15s;
+}
+
+.thumb-arrow:hover {
+  background: rgba(0, 0, 0, .6);
+}
+
+.view-all {
+  margin-top: .85rem;
+  padding: .6rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 100px;
+  color: var(--text);
+  background: rgba(255, 255, 255, .5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: background .15s, transform .12s;
+}
+
+.view-all:hover {
+  background: rgba(255, 255, 255, .72);
+  transform: translateY(-1px);
+}
+
+.option-label {
+  margin-top: .5rem;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: var(--shadow-soft);
+}
+
+.price-from {
+  font-size: .5em;
+  font-weight: 500;
+}
+
+/* --- OPTIONS MODAL --- */
+.options-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadein .2s ease;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+}
+
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 780px;
+  max-height: 85vh;
+  overflow: hidden;
+  border-radius: 20px;
+  color: var(--text);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .45);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.3rem;
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.modal-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--text);
+  background: rgba(0, 0, 0, .06);
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, .12);
+}
+
+.modal-grid {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: .8rem;
+  min-height: 0;
+  padding: 1.3rem;
+  overflow-y: auto;
+}
+
+.modal-grid .thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-color: rgba(0, 0, 0, .08);
+}
+
+.modal-grid .thumb img {
+  position: absolute;
+  inset: 0;
+}
+
+.modal-grid .thumb.selected {
+  border-color: var(--accent);
+}
+
+.thumb-name {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 14px 6px 5px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, .7), transparent);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- SELECTORS & CTAs --- */
+.label-value {
+  margin-left: .4rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+
+/* Compact color dots: one row instead of a block of named buttons */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+}
+
+.swatch-btn {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, .9);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .25), 0 2px 6px rgba(0, 0, 0, .3);
+  transition: transform .15s, box-shadow .15s;
+}
+
+.swatch-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.swatch-btn.selected {
+  box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px #fff, 0 2px 8px rgba(0, 0, 0, .35);
+}
+
+.swatch-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.swatch-btn:disabled::after {
+  content: "";
+  position: absolute;
+  inset: 50% -2px auto;
+  height: 2px;
+  background: rgba(0, 0, 0, .7);
+  transform: rotate(-45deg);
+}
+
+.size-btn:disabled {
+  border-color: rgba(0, 0, 0, .08);
+  color: rgba(0, 0, 0, .35);
+  background: rgba(255, 255, 255, .55);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.size-btn:active:not(:disabled) {
+  transform: scale(.95);
+}
+
+/* Buy Now with a compact Add-to-bag button beside it */
+.cta-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .6rem;
+}
+
+.buy-btn:disabled,
+.bag-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.bag-btn {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, .14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  transition: background .15s, transform .12s;
+}
+
+.bag-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, .24);
+  transform: translateY(-1px);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border: 2px solid rgba(0, 0, 0, .3);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: spin .7s linear infinite;
+}
+
+.checkout-error {
+  grid-column: 1 / -1;
+  padding: .7rem .9rem;
+  border: 1px solid rgba(255, 143, 163, .5);
+  border-radius: 10px;
+  color: #fff;
+  background: rgba(194, 51, 77, .55);
+  font-size: 14px;
+}
+
+.detail-description {
+  display: grid;
+  gap: .8rem;
+  color: #fff;
+}
+
+.detail-description.clamped {
+  max-height: 5.1em;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
+.read-more {
+  align-self: flex-start;
+  margin-top: -1.2rem;
+  padding: 0;
+  border: 0;
+  color: #fff;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-shadow: var(--shadow-soft);
+}
+
+/* --- STATES: loading, empty, error, checkout results --- */
+.state-panel {
+  width: min(560px, calc(100% - 2rem));
+  margin: 6rem auto 2rem;
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 20px;
+  color: #fff;
+  background: rgba(9, 24, 27, .72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
+}
+
+.state-panel h1 {
+  margin-bottom: 1rem;
+  font: 3rem/1 var(--font-bebas), sans-serif;
+  letter-spacing: .03em;
+}
+
+.state-panel p {
+  margin-bottom: .6rem;
+  line-height: 1.6;
+  opacity: .9;
+}
+
+.state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .7rem;
+  margin-top: 1.5rem;
+}
+
+.skeleton,
+.skeleton-line {
+  background: linear-gradient(100deg, rgba(255, 255, 255, .2) 30%, rgba(255, 255, 255, .42) 50%, rgba(255, 255, 255, .2) 70%) 0 0 / 200% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+
+.skeleton-line {
+  width: 55%;
+  height: 1.6rem;
+  border-radius: 8px;
+}
+
+.skeleton-line.wide {
+  width: 85%;
+  height: 3rem;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* --- CART additions --- */
+.cart-fab span {
+  font-weight: 700;
+}
+
+.cart-empty {
+  display: grid;
+  gap: .8rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.cart-empty a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.cart-item b {
+  line-height: 1.3;
+}
+
+.quantity-control span {
+  text-align: center;
+}
+
+.quantity-control button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.cart-total > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+
+.cart-total > button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+@media (max-width: 720px) {
+  .detail-media {
+    position: static;
+  }
+
+  .view-arrow {
+    opacity: 1;
+  }
+
+  .detail-nav {
+    padding: 1rem 1rem 0;
+  }
+
+  .thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .thumb-arrow {
+    display: none;
+  }
+}
+
+/* --- COMPACT PRODUCT DETAILS: keeps the whole product view on one screen --- */
+.detail-info {
+  gap: 1rem;
+}
+
+.detail-info h1 {
+  font-size: clamp(1.8rem, 3.2vw, 2.9rem);
+}
+
+.price {
+  font-size: 1.7rem;
+}
+
+.price-note {
+  font-size: 13px;
+}
+
+.option-label {
+  margin-top: .35rem;
+  font-size: 13px;
+}
+
+.label {
+  margin-bottom: .5rem;
+  font-size: 12px;
+}
+
+.size-btn {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.swatches {
+  gap: .45rem;
+}
+
+.swatch-btn {
+  width: 24px;
+  height: 24px;
+}
+
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.qty-value {
+  min-width: 40px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.buy-btn {
+  padding: .8rem;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.bag-btn {
+  width: 50px;
+  border-radius: 12px;
+}
+
+.trust-item {
+  font-size: 12px;
+}
+
+.detail-description {
+  font-size: 14px;
+}
+
+.img-frame {
+  max-width: min(100%, calc(100vh - 300px));
+}
+/* --- MOBILE OVERRIDES (Add this to the very bottom of the file) --- */
+@media (max-width: 600px) {
+  /* 1. Fix the top navigation layout */
+  .detail-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem 1rem 0;
+  }
+
+  .nav-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav-brand {
+    font-size: 14px;
+    text-align: right;
+    max-width: 150px;
+    line-height: 1.2;
+  }
+
+  /* 2. Stack the dropdown, bag, and about button */
+  .nav-right {
+    flex-direction: column; /* Changed from row to column to stack them */
+    align-items: center;
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  .nav-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  /* 3. Make dropdown and Bag button smaller */
+  .category-select {
+    padding: 8px 32px 8px 12px;
+    font-size: 13px;
+  }
+
+  .cart-fab {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* 4. Hide big arrows on mobile (users swipe) */
+  .view-arrow {
+    display: none;
+  }
+
+  /* 5. Tighten the image container */
+  .img-frame {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .img-wrap {
+    border-radius: 16px;
+  }
+
+  /* 6. FORCE the About button to be small and centered */
+  .about-wrap {
+    display: flex;          /* <-- ADDED THIS */
+    justify-content: center; 
+    width: 100%;            /* <-- ADDED THIS */
+    margin-top: 0.2rem;
+    padding: 0;
+  }
+
+  .nav-right .about-link {
+    font-size: 0.9rem !important;     
+    padding: 6px 16px !important;      
+    width: auto !important;          
+    white-space: nowrap !important;  
+    letter-spacing: 0.05em !important;
+  }
+
+  /* 7. Fix the detail layout spacing */
+  .detail-layout {
+    gap: 1rem;
+    padding-bottom: 6rem; 
+  }
+   .weather-pill {
+    left: 10px;        
+    bottom: 10px;
+    padding: 6px;      
+  }
+
+  /* Shrink the circle holding the icon */
+  .weather-icon {
+    width: 32px;       
+    height: 32px;      /* <--- FIXED: Changed from 10px to 32px */
+  }
+
+  /* Shrink the SVG icon inside */
+  .weather-icon svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* Shrink the text inside the expanded pill */
+  .weather-text b {
+    font-size: 12px;
+  }
+  .weather-text small {
+    font-size: 10px;
+  }
+  .weather-text strong {
+    font-size: 16px;
   }
 }

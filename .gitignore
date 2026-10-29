@@ -3,6 +3,7 @@ dist/
 build/
 .cache/
 .env*
+!.env.example
 .vite/
 vite.config.*.timestamp-*
 *.tsbuildinfo
@@ -19,3 +20,7 @@ logs/
 # beside it.
 /.plugins/
 /.opencode-skills/
+
+# Next.js build output
+.next/
+next-env.d.ts.bak
