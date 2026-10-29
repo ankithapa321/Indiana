@@ -2,10 +2,14 @@
 // WebP, like the hand-made cut-outs on the reference site. Results are cached on disk.
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import sharp from "sharp";
 
-const CACHE_DIR = path.join(process.cwd(), ".next", "cache", "cutouts");
+// Vercel's filesystem is read-only except the temp dir.
+const CACHE_DIR = process.env.VERCEL
+  ? path.join(os.tmpdir(), "cutouts")
+  : path.join(process.cwd(), ".next", "cache", "cutouts");
 /** Max per-channel distance from the background color still treated as background.
  *  Kept tight: anything looser leaks into white garments. */
 const TOLERANCE = 10;

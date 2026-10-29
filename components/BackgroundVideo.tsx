@@ -28,14 +28,16 @@ export function BackgroundVideo() {
     try { off = localStorage.getItem(OFF_KEY) === "1"; } catch {}
     if (off) return;
 
-    const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+    // Only real clicks/taps/keys may unmute: Chrome pauses a video unmuted on scroll.
+    const events = ["pointerdown", "keydown", "touchend"] as const;
     const cleanup = () => events.forEach((name) => document.removeEventListener(name, onFirst));
-    
+
     function onFirst(event: Event) {
-      if ((event.target as Element | null)?.closest?.(".audio-control")) return; 
-      cleanup();
+      if ((event.target as Element | null)?.closest?.(".audio-control")) return;
       video!.muted = false;
-      video!.play().then(() => setSoundOn(true)).catch(() => { video!.muted = true; });
+      video!.play()
+        .then(() => { cleanup(); setSoundOn(true); })
+        .catch(() => { video!.muted = true; video!.play().catch(() => {}); });
     }
     
     events.forEach((name) => document.addEventListener(name, onFirst, { passive: true }));
