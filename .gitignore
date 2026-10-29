@@ -24,3 +24,4 @@ logs/
 # Next.js build output
 .next/
 next-env.d.ts.bak
+package.zip
