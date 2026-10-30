@@ -147,7 +147,7 @@ button {
   backdrop-filter: blur(12px); 
   -webkit-backdrop-filter: blur(12px);
   font-family: var(--font-bebas), sans-serif;
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1;
   letter-spacing: .05em;
   cursor: pointer;
@@ -159,7 +159,7 @@ button {
 
 /* Hover State */
 .about-link:hover {
-  background: var(--accent); 
+  background:#23ca23;
   color: #000;
   border-color: var(--accent);
   transform: translateY(-2px); 
