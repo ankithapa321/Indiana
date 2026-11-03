@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "sync": "node scripts/sync-products.ts"
   },
   "dependencies": {
     "dotenv": "^18.0.9",

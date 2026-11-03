@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "We couldn't confirm product availability. Please try again." }, { status: 502 });
   }
 
+  // Sales tax is added on top of the price at checkout (Stripe Tax must be activated in the Dashboard first).
+  const collectTax = process.env.STRIPE_AUTOMATIC_TAX === "true";
+
   const lineItems = [];
   for (const line of lines) {
     const design = designs.get(line.productId);
@@ -64,7 +67,9 @@ export async function POST(req: NextRequest) {
       price_data: {
         currency: "usd",
         unit_amount: variant.price,
+        tax_behavior: collectTax ? "exclusive" : undefined,
         product_data: {
+          tax_code: collectTax ? "txcd_30011000" : undefined, // Clothing and footwear
           name: `${design.name} — ${getCategory(design.category)?.name ?? ""}`.replace(/ — $/, ""),
           description: [color, size].filter(Boolean).join(" / ") || undefined,
           images: image ? [image] : undefined,
@@ -88,6 +93,7 @@ export async function POST(req: NextRequest) {
       cancel_url: `${origin}/checkout/cancel`,
       shipping_address_collection: { allowed_countries: countries },
       phone_number_collection: { enabled: true },
+      automatic_tax: collectTax ? { enabled: true } : undefined,
       metadata: encodeLines(lines),
     });
     return NextResponse.json({ url: session.url });

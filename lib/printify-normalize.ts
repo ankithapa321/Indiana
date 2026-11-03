@@ -31,6 +31,7 @@ export type RawProduct = {
   images: RawImage[];
   visible: boolean;
   is_deleted?: boolean;
+  external?: { id: string; handle: string } | null;
   blueprint_id: number;
 };
 
@@ -76,7 +77,7 @@ export function htmlToParagraphs(html: string): string[] {
 }
 
 export function normalizeProduct(product: RawProduct): Design | null {
-  if (product.is_deleted || !product.visible) return null;
+  if (product.is_deleted || !product.visible || !product.external?.id) return null;
   const category = classify(product);
   if (!category) return null;
 

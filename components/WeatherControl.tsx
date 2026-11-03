@@ -52,9 +52,14 @@ export function WeatherControl() {
   useEffect(() => {
     const url = "https://api.open-meteo.com/v1/forecast?latitude=39.7684&longitude=-86.1581&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,cloud_cover,pressure_msl,wind_speed_10m,wind_direction_10m,uv_index,dew_point_2m,visibility&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FIndiana%2FIndianapolis";
 
+    let retry: number | undefined;
     const load = () => fetch(url)
       .then((res) => res.json())
       .then((data) => {
+        // Open-Meteo answers outages/rate limits with {"error": true, "reason": …} and no weather data.
+        if (data?.error || !data?.current || !data?.daily) {
+          throw new Error(data?.reason ?? "Weather data unavailable");
+        }
         setWeather({
           current: {
             temp: Math.round(data.current.temperature_2m),
@@ -78,11 +83,19 @@ export function WeatherControl() {
           }
         });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        // Keep showing the last reading (or "--") and try again shortly; not an app error.
+        console.warn("Weather unavailable:", err instanceof Error ? err.message : err);
+        window.clearTimeout(retry);
+        retry = window.setTimeout(load, 60 * 1000);
+      });
 
     load();
     const timer = window.setInterval(load, 10 * 60 * 1000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(retry);
+    };
   }, []);
 
   const condition = describeWeather(weather?.current.weatherCode ?? 0, weather?.current.isDay !== 0);
