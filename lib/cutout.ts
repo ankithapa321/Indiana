@@ -6,10 +6,8 @@ import os from "node:os";
 import path from "node:path";
 import sharp from "sharp";
 
-// Vercel's filesystem is read-only except the temp dir.
-const CACHE_DIR = process.env.VERCEL
-  ? path.join(os.tmpdir(), "cutouts")
-  : path.join(process.cwd(), ".next", "cache", "cutouts");
+// Serverless hosts (Vercel, AWS Amplify) only allow writing to the temp dir.
+const CACHE_DIR = path.join(os.tmpdir(), "cutouts");
 /** Max per-channel distance from the background color still treated as background.
  *  Kept tight: anything looser leaks into white garments. */
 const TOLERANCE = 10;
