@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const origin = req.nextUrl.origin;
+  const origin = process.env.NEXT_PUBLIC_BASE_URL ?? req.nextUrl.origin;
   const countries = (process.env.STRIPE_SHIPPING_COUNTRIES ?? "US")
     .split(",")
     .map((country) => country.trim().toUpperCase())

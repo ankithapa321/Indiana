@@ -1,9 +1,12 @@
 // Shared, client-safe catalog types and category definitions.
 // Server-only Printify access lives in lib/printify.ts.
 
+// `image` is the home page card photo. To change one, replace the file in public/products/
+// (transparent background) or point `image` at a new file there.
 export const CATEGORIES = [
   {
     slug: "tshirt",
+    image: "/products/tshirt.webp",
     name: "T-Shirts",
     title: "Premium Indiana Wear T-Shirt",
     tag: "T-shirts",
@@ -11,6 +14,7 @@ export const CATEGORIES = [
   },
   {
     slug: "hoodie",
+    image: "/products/hoodie.webp",
     name: "Hoodies",
     title: "Premium Indiana Wear Hoodie",
     tag: "Hoodies",
@@ -18,6 +22,7 @@ export const CATEGORIES = [
   },
   {
     slug: "sweatshirt",
+    image: "/products/sweatshirt.webp",
     name: "Sweatshirts",
     title: "Premium Indiana Wear Sweatshirt",
     tag: "Sweatshirts",
@@ -25,6 +30,7 @@ export const CATEGORIES = [
   },
   {
     slug: "tanktop",
+    image: "/products/tanktop.webp",
     name: "Tank Tops",
     title: "Premium Indiana Wear Tank Top",
     tag: "Tank Tops",
@@ -32,6 +38,7 @@ export const CATEGORIES = [
   },
   {
     slug: "longsleeve",
+    image: "/products/longsleeve.webp",
     name: "Long Sleeves",
     title: "Premium Indiana Wear Long Sleeve Tee",
     tag: "Long Sleeves",

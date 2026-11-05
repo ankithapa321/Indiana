@@ -203,14 +203,6 @@ button {
   transition: transform .55s ease;
 }
 
-.product-image.empty {
-  display: grid;
-  place-items: center;
-  font-weight: 600;
-  text-shadow: var(--shadow-soft);
-  filter: none;
-}
-
 .product-card:hover .product-image {
   transform: scale(1.05);
 }
