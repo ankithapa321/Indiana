@@ -23,8 +23,10 @@ export async function POST(req: NextRequest) {
   const lines = decodeLines(session.metadata ?? {});
   const shipping = session.collected_information?.shipping_details ?? session.shipping_details;
   const address = shipping?.address ?? session.customer_details?.address;
-  if (!lines.length || !address) {
-    console.error("[webhook] session missing line items or address", session.id);
+  // This Stripe account also serves other businesses: ignore checkouts that aren't store orders.
+  if (!lines.length) return NextResponse.json({ received: true });
+  if (!address) {
+    console.error("[webhook] session missing address", session.id);
     return NextResponse.json({ error: "Session missing order data" }, { status: 422 });
   }
 
